@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#choose number of sticks
+
+function getNumSticks {
+      read -p "How many stick you want?" numSticks
+      while [[ $numSticks -lt 10 ]]
+      do
+          echo "Sorry. You need 10 sticks or more"
+          read -p "How many sticks you want man?" numSticks
+      done
+      echo $numSticks
+}
+
+#main
+#welcome
+echo Welcome to the great game of sticks
+#do intro
+#choose number of sticks
+n = `getNumSticks`
+#choose who goes first
+t = `whoGoesFirst`
+
