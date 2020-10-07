@@ -9,27 +9,28 @@ function getNumSticks {
           echo "Sorry. You need 10 sticks or more"
           read -p "How many sticks you want man?" numSticks
       done
-      echo $numSticks
+      echo $numSticks "is the number of sticks"
 }
 #decides who goes first
 
 function whoGoesFirst {
    #read -p turnFirst
 
-   read -p "Type in u for user if you want to go first, or c for computer if you want to go second after me"  turnFirst
-   while [[ 1 -eq 1 ]] #forever loop
+   
+   while [[ 1 == 1  ]] #forever loop
+  read -p "Type in u for user if you want to go first, or c for computer if you want to go second after me"  turnFirst
+
       do
 	#computer
-        if [[ $turnFirst = "c" ]]
+        if [[ "$turnFirst"  == "c" ]]
            then
-		break
+             break
+            fi
         #user   
-        elif [[ $turnfirst = "u" ]]
+        if [[ "$turnfirst" == "u" ]]
 	  then 
 		break
-         else
-         #else
-	        echo Type in c for computer for u for user
+      
          fi
          done 
          echo $turnFirst "goes first"  
