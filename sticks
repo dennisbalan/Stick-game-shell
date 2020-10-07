@@ -35,7 +35,16 @@ function whoGoesFirst {
          done 
          echo $turnFirst "goes first"  
  }
- 
+funtion computerTurn(n){
+        if [[  "$n%5" -eq 0 ]]
+        then
+             n=$( (n-1) )
+        else
+             f="$n%5"
+             n=$( (n-f) )
+        fi
+     
+}
 #main
 #welcome
 echo Welcome to the great game of sticks
@@ -44,6 +53,7 @@ echo Welcome to the great game of sticks
 n=`getNumSticks`
 #choose who goes first
 t=`whoGoesFirst`
+#game loops util gameover is 0. gameover is 0 when someone wins
 while [[ gameover -eq 0 ]]
 do
 echo "n = $n"
