@@ -54,6 +54,13 @@ funtion computerTurn(){
 	echo -e -n "($n)\n"
 
 }
+#user turn 
+function userTurn {
+read -p "Please type in the number of sticks you need. Do not take more than 4 sticks" userSticks
+if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
+then
+    n=$( (n-userSticks) )
+else
 #main
 #welcome
 echo Welcome to the great game of sticks
@@ -74,6 +81,13 @@ do
 
 done
 echo -e -n "($n)\n"
-
+if [[ "t" == "c" ]]
+then 
+       computerTurn $n
+       userTurn $n
+elif [["t" == "u" ]]
+      userTurn $n
+      computerTurn$n
+fi
 done
 
