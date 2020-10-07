@@ -11,13 +11,40 @@ function getNumSticks {
       done
       echo $numSticks
 }
+#decides who goes first
 
+function whoGoesFirst {
+   #read -p turnFirst
+
+   read -p "Type in u for user if you want to go first, or c for computer if you want to go second after me"  turnFirst
+   while [[ 1 -eq 1 ]] #forever loop
+      do
+	#computer
+        if [[ $turnFirst = "c" ]]
+           then
+		break
+        #user   
+        elif [[ $turnfirst = "u" ]]
+	  then 
+		break
+         else
+         #else
+	        echo Type in c for computer for u for user
+         fi
+         done 
+         echo $turnFirst "goes first"  
+ }
+ 
 #main
 #welcome
 echo Welcome to the great game of sticks
 #do intro
 #choose number of sticks
-n = `getNumSticks`
+n=`getNumSticks`
 #choose who goes first
-t = `whoGoesFirst`
+t=`whoGoesFirst`
+while [[ gameover -eq 0 ]]
+do
+echo "n = $n"
+done
 
