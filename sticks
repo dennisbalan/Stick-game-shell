@@ -35,7 +35,8 @@ function whoGoesFirst {
          done 
          echo $turnFirst "goes first"  
  }
-funtion computerTurn(n){
+funtion computerTurn(){
+        
         if [[  "$n%5" -eq 0 ]]
         then
              n=$( (n-1) )
@@ -43,7 +44,15 @@ funtion computerTurn(n){
              f="$n%5"
              n=$( (n-f) )
         fi
-     
+        i=1
+        while [[ $i -le $n ]]
+        do
+        	echo -n "|"
+        	i=$((i+1))
+
+	done
+	echo -e -n "($n)\n"
+
 }
 #main
 #welcome
@@ -57,5 +66,14 @@ t=`whoGoesFirst`
 while [[ gameover -eq 0 ]]
 do
 echo "n = $n"
+i=1
+while [[ $i -le $n ]]
+do
+   echo -n "|"
+   i=$((i+1))
+
+done
+echo -e -n "($n)\n"
+
 done
 
