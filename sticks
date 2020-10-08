@@ -61,25 +61,35 @@ function userTurn {
 read -p "Please type in the number of sticks you need. Do not take more than 4 sticks" userSticks
 if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
 then
-    n=$( (n-userSticks) )
+    $1=$( ($1-userSticks) )
 else
   echo  "You should type an amount between 1 and 4."
   if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
   then 
-    n=$( (n-userSticks) )
+    $1=$( ($1-userSticks) )
   else
    echo "You have forfeited the game"
-   $gameOver=1
+   $2=1
    fi
 fi
 }
 
 function didComputerWin {
-if [[ $n -eq 0 ]]
+if [[ $1 -eq 0 ]]
 then
-
+  echo I won
+  $2=1
 fi
 }
+funtion didUserWin {
+if [[ $1 -eq 0 ]]
+  echo you won
+  $2 =1
+fi
+}
+
+
+
 
 
 #main
@@ -105,10 +115,42 @@ echo -e -n "($n)\n"
 if [[ "t" == "c" ]]
 then 
        computerTurn $n
-       userTurn $n
+       didComputerWin $n $gameover
+       if [[ $gameover -eq 1 ]]
+       then 
+          break
+       fi
+       userTurn $n $gameover
+       if [[ $gameover -eq 1 ]]
+       then
+          break
+       fi
+
+       didUserWin $n $gameover
+	if [[ $gameover -eq 1 ]]
+       then
+          break
+       fi
+
 elif [["t" == "u" ]]
-      userTurn $n
-      computerTurn$n
+      userTurn $n $gameover
+      if [[ $gameover -eq 1 ]]
+       then
+          break
+       fi
+      didUserWin $n $gameover
+	if [[ $gameover -eq 1 ]]
+       then
+          break
+       fi
+
+      computerTurn $n 
+      didComputerWin $n $gameover
+	if [[ $gameover -eq 1 ]]
+       then
+          break
+       fi
+
 fi
 
 done
