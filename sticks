@@ -41,12 +41,12 @@ function whoGoesFirst {
 #Else it takes modulo 5 amount of sticks
 function computerTurn(){
         
-        if [[  "$1%5" -eq 0 ]]
+        if [[ ( ($1%5) ) -eq 0 ]]
         then
-             n=$( (n-1) )
+             $1=$( ($1-1) )
         else
-             f="$1%5"
-             n=$( (n-f) )
+             f=$( ($1%5) )
+             $1=$( ($1-f) )
         fi
         i=1
         while [[ $i -le $1 ]]
@@ -71,7 +71,7 @@ else
     $1=$( ($1-userSticks) )
   else
    echo "You have forfeited the game"
-   $1=-1
+   $1=0
    fi
 fi
  i=1
@@ -120,7 +120,7 @@ while [[ gameover -eq 0 ]]
 	if [[ "$t" == "c" ]]
 		then 
        		ct=`computerTurn $n`
-       		cw=`didComputerWin $n`
+       		cw=`didComputerWin $ct`
        
 	#checks to see if computer won
        if [[ $cw -eq -1 ]]
@@ -130,7 +130,7 @@ while [[ gameover -eq 0 ]]
        fi
 
        #user Turn
-      ut=`userTurn $n`
+      ut=`userTurn $ct`
        if [[ $ut -eq -1 ]]
        then
 	  $gameover=1
@@ -138,15 +138,16 @@ while [[ gameover -eq 0 ]]
        fi
 
        #checks to see if the user won
-       uw=`didUserWin $n`
+       uw=`didUserWin $ut`
 	if [[ $uw -eq -1 ]]
        then
 	$gameover=1
           break
        fi 
+       $n=$ut
   fi
        if [[ "$t" == "u" ]]
-    	 uta=`userTurn $n $gameover`
+    	 uta=`userTurn $n`
      		 if [[ $uta -eq -1 ]]
        then
 
@@ -155,20 +156,21 @@ while [[ gameover -eq 0 ]]
        		fi
 
 
-     $uwa=`didUserWin $n`
+     $uwa=`didUserWin $uta`
 	if [[ $uwa -eq -1 ]]
        then
 	  $gameover=1
           break
        fi
 
-      cta=`computerTurn $n` 
-      cwa=`didComputerWin $n`
+      cta=`computerTurn $uta` 
+      cwa=`didComputerWin $cta`
 	if [[ $cwa -eq 1 ]]
        then
 	$gameover=1
           break
        fi
+      $n=$cta
 fi
 done
 
