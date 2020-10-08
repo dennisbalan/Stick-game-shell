@@ -18,22 +18,24 @@ function whoGoesFirst {
 
    
    while [[ 1 == 1  ]] #forever loop
+  do 
   read -p "Type in u for user if you want to go first, or c for computer if you want to go second after me"  turnFirst
 
-      do
+      
+	
 	#computer
         if [[ "$turnFirst"  == "c" ]]
            then
              break
-            
+       fi     
         #user   
-       elif [[ "$turnfirst" == "u" ]]
+       if [[ "$turnfirst" == "u" ]]
 	  then 
 		break
       
          fi
          done 
-         echo $turnFirst "goes first"  
+         echo $turnFirst 
  }
 #This isthe computer Turn function. If the number of sticks is divisble by 5 it takes 1 stick
 #Else it takes modulo 5 amount of sticks
@@ -112,24 +114,27 @@ n=`getNumSticks`
 t=`whoGoesFirst`
 #game loops util gameover is 0. gameover is 0 when someone wins
 while [[ gameover -eq 0 ]]
-do
-echo "n = $n"
+	do
+	echo "n = $n"
 
-if [[ "t" == "c" ]]
-then 
-       computerTurn $n
-       didComputerWin $n $gameover
+	if [[ "$t" == "c" ]]
+		then 
+       		computerTurn $n
+       		didComputerWin $n $gameover
+       
 	#checks to see if computer won
        if [[ $gameover -eq 1 ]]
        then 
           break
        fi
+
        #user Turn
        userTurn $n $gameover
        if [[ $gameover -eq 1 ]]
        then
           break
        fi
+
        #checks to see if the user won
        didUserWin $n $gameover
 	if [[ $gameover -eq 1 ]]
@@ -137,12 +142,14 @@ then
           break
        fi
 
-elif [["t" == "u" ]]
-      userTurn $n $gameover
-      if [[ $gameover -eq 1 ]]
+	elif [[ "$t" == "u" ]]
+    	 userTurn $n $gameover
+     		 if [[ $gameover -eq 1 ]]
        then
           break
-       fi
+       		fi
+
+
       didUserWin $n $gameover
 	if [[ $gameover -eq 1 ]]
        then
@@ -156,6 +163,5 @@ elif [["t" == "u" ]]
           break
        fi
 fi
-
 done
 
