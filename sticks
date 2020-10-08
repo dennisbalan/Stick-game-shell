@@ -32,13 +32,13 @@ function whoGoesFirst {
              break
         
         #user turn. Is chosen after turnFirst is u
-      elif [[ "$turnfirst" == "u" ]]
+      elif [[ "$turnFirst" == "u" ]]
 	  then 
 		break
       
          fi
          done 
-         echo $turnFirst 
+        echo $turnFirst 
  }
 #This isthe computer Turn function. If the number of sticks is divisble by 5 it takes 1 stick
 #Else it takes modulo 5 amount of sticks
@@ -46,24 +46,17 @@ function computerTurn(){
         b=$(($1%5))
         if [[ $b -eq 0 ]]
         then
-             d=$(($1-1))
-             s=$d
-             return $s
+             s=$(($1-1))
+             
+             
         else
              f=$(($1%5))
-             e=$(($1-f))
-             h=$e
-             return $h
+             s=$(($1-f))
+            
         fi
 #prints out the number of sticks
-        i=1
-        while [[ $i -le $1 ]]
-        do
-        	echo -n "|"
-        	i=$((i+1))
-
-	done
-	echo -e -n "($1)\n"
+        echo computer 
+        echo $s
 
 }
 #user turn 
@@ -72,32 +65,27 @@ function userTurn {
 read -p "Please type in the number of sticks you need. Do not take more than 4 sticks" userSticks
 if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
 then
-    c=$(($1-userSticks))
-    return $c
+    y=$(($1 - userSticks))
+    
 else
 #Checks the number of sticks again. If fail, forfeit
   echo  "You should type an amount between 1 and 4."
-  read -p "please type in u if you want to go first, c for computer if you want to go later" userSticks
+  read -p "Type in the amount of sticks you need" userSticks
   if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
   then 
     #I think that this is the wrong format
-    y=$(($1-userSticks))
-    return $y
-   #forfeit
+    y=$(($1 - userSticks))
+    
+   #forfeiti
+   else
    echo "You have forfeited the game"
-   z=0
-   return $z
+  y=0
+   
    fi
 fi
 #prints the number of sticks
- i=1
-        while [[ $i -le $1 ]]
-        do
-                echo -n "|"
-                i=$((i+1))
-
-        done
-        echo -e -n "($1)\n"
+ echo user
+ echo $y
 
 }
 #checks to see if computer has 0 sticks. 0 sticks means it wins
@@ -107,7 +95,7 @@ then
   echo I won
   #adds special victory code -1
   k=-1
-  return $k
+  
 fi
 }
 #checks to see if user has 0 sticks. 0 sticks means user wins
@@ -115,9 +103,9 @@ function didUserWin {
 if [[ $1 -eq 0 ]]
 then
   echo you won
-#special victory code -1
-  jk=-1
-  return $jk
+ #special victory code -1
+  a=-1
+
 fi
 }
 
@@ -134,47 +122,49 @@ n=`getNumSticks`
 #choose who goes first
 t=`whoGoesFirst`
 #game loops util gameover is 0. gameover is 0 when someone wins
+
 if [[ "$t" == "c" ]]
 then 
-ct=`computerTurn $n`
-n=$ct
+computerTurn $n
+n=$s
 fi
 gameover=0
+x=$n
 while [[ $gameover -eq 0 ]]
     do
 	
        
 	
-      x=$n
+     
        #if user goes
          #user turn
- uta=`userTurn $x`
+ userTurn $x
 	#forfeit/gameover check
-     		 if [[ $ut -eq 0 ]]
+     		 if [[ $y -eq 0 ]]
        then
 
 	gameover=1
           break
        		fi
-
+        x=$y
       #gameover check
-     uw=`didUserWin $ut`
-	if [[ $uw -eq -1 ]]
+    didUserWin $y 
+	if [[ $a -eq -1 ]]
        then
 	  gameover=1
           break
        fi
 	#computer turn
-      cta=`computerTurn $ut` 
-      cw=`didComputerWin $cta`
+      computerTurn $x
+      didComputerWin $s
 	#gameover check
-	if [[ $cw -eq -1 ]]
+	if [[ $k -eq -1 ]]
        then
 	gameover=1
           break
        fi
       #reinitialize x
-      x=$cta
+      x=$s
 
 done
 
