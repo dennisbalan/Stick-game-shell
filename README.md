@@ -1,0 +1,1 @@
+The program is done and runs smoothly. The only minor problem is that the game will not close immideately after the conclusion, showing the forfeit code number -2 several times before closing. Otherwise it is perfect

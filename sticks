@@ -1,16 +1,25 @@
 #!/bin/bash
 
+#Dennis Balan
+#CSE 224
+#10-8-2020
+#HW-003
+#This program is a stick game. It lets the player input the number of sticks to play with, and
+#then competes with the computer to be the first to remove all the sticks. 
+
+
+
 #choose number of sticks
 
 function getNumSticks {
-      read -p "How many stick you want?" numSticks
+      read -p "How many stick do you want?" numSticks
       while [[ $numSticks -lt 10 ]]
       do
 	 #while numSticks is less than 10, tells user to pick 10 or more sticks
           echo "Sorry. You need 10 sticks or more"
-          read -p "How many sticks you want man?" numSticks
+          read -p "How many sticks you want man? " numSticks
       done
-      echo $numSticks "is the number of sticks"
+      echo $numSticks
       exit $numSticks
 }
 #decides who goes first
@@ -56,7 +65,7 @@ function computerTurn(){
         fi
 #prints out the number of sticks
         echo computer 
-        echo $s
+        
         
 
 i=1
@@ -72,7 +81,7 @@ echo -e -n "($s)\n"
 #user turn 
 function userTurn {
 #Checks the number of sticks the user inputs the first time. There must be between 1 and 4 sticks
-read -p "Please type in the number of sticks you need. Do not take more than 4 sticks" userSticks
+read -p "Please type in the number of sticks you need. Do not take more than 4 sticks:" userSticks
 if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
 then
     y=$(($1 - userSticks))
@@ -80,13 +89,13 @@ then
 else
 #Checks the number of sticks again. If fail, forfeit
   echo  "You should type an amount between 1 and 4."
-  read -p "Type in the amount of sticks you need" userSticks
+  read -p "Type in the amount of sticks you need: " userSticks
   if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
   then 
     #I think that this is the wrong format
     y=$(($1 - userSticks))
     
-   #forfeiti
+   #forfeit returns special code -2 for forfeit
    else
    echo "You have forfeited the game"
   y=-2
@@ -94,8 +103,7 @@ else
    fi
 fi
 #prints the number of sticks
- echo user
- echo $y
+ echo you
  
 
 userNumber=1
@@ -119,6 +127,8 @@ then
 fi
 }
 #checks to see if user has 0 sticks. 0 sticks means user wins
+#exception is when you forfeit. special code for forfeit is -2
+#forfeit is in the userTurn function
 function didUserWin {
 if [[ $1 -eq 0 ]]
 then
@@ -141,22 +151,35 @@ echo Welcome to the great game of sticks
 n=`getNumSticks`
 #choose who goes first
 t=`whoGoesFirst`
-#game loops util gameover is 0. gameover is 0 when someone wins
+#print the number of sticks
+	i=1
+while [[ $i -le $n ]]
+do
+   echo -n "|"
+   i=$((i+1))
+
+done
+echo -e -n "($n)\n"
+
+#checks if computer goes first
+#if not continues to the main loop
 
 if [[ "$t" == "c" ]]
 then 
 computerTurn $n
 n=$s
 fi
+#gameover is set to 0, x is set to $n
 gameover=0
 x=$n
+#loop ends when gameover is 0 or it reaches break
 while [[ $gameover -eq 0 ]]
     do
 	
        
 	
      
-       #if user goes
+       #if user goes first, this will be the first function. Otherwise it is computerTurn ahead of the main loop
          #user turn
  userTurn $x
 	#forfeit/gameover check
@@ -187,4 +210,4 @@ while [[ $gameover -eq 0 ]]
       x=$s
 
 done
-
+#game is over when x is 0
