@@ -71,7 +71,7 @@ else
     $1=$( ($1-userSticks) )
   else
    echo "You have forfeited the game"
-   $2=1
+   $1=-1
    fi
 fi
  i=1
@@ -89,14 +89,14 @@ function didComputerWin {
 if [[ $1 -eq 0 ]]
 then
   echo I won
-  $2=1
+  $1=-1
 fi
 }
 function didUserWin {
 if [[ $1 -eq 0 ]]
 then
   echo you won
-  $2 =1
+  $1=-1
 fi
 }
 
@@ -119,47 +119,54 @@ while [[ gameover -eq 0 ]]
 
 	if [[ "$t" == "c" ]]
 		then 
-       		computerTurn $n
-       		didComputerWin $n $gameover
+       		ct=`computerTurn $n`
+       		cw=`didComputerWin $n`
        
 	#checks to see if computer won
-       if [[ $gameover -eq 1 ]]
+       if [[ $cw -eq -1 ]]
        then 
+ 	  $gameover=1
           break
        fi
 
        #user Turn
-       userTurn $n $gameover
-       if [[ $gameover -eq 1 ]]
+      ut=`userTurn $n`
+       if [[ $ut -eq -1 ]]
        then
+	  $gameover=1
           break
        fi
 
        #checks to see if the user won
-       didUserWin $n $gameover
-	if [[ $gameover -eq 1 ]]
+       uw=`didUserWin $n`
+	if [[ $uw -eq -1 ]]
        then
+	$gameover=1
           break
-       fi
-
-	elif [[ "$t" == "u" ]]
-    	 userTurn $n $gameover
-     		 if [[ $gameover -eq 1 ]]
+       fi 
+  fi
+       if [[ "$t" == "u" ]]
+    	 uta=`userTurn $n $gameover`
+     		 if [[ $uta -eq -1 ]]
        then
+
+	$gameover=1
           break
        		fi
 
 
-      didUserWin $n $gameover
-	if [[ $gameover -eq 1 ]]
+     $uwa=`didUserWin $n`
+	if [[ $uwa -eq -1 ]]
        then
+	  $gameover=1
           break
        fi
 
-      computerTurn $n 
-      didComputerWin $n $gameover
-	if [[ $gameover -eq 1 ]]
+      cta=`computerTurn $n` 
+      cwa=`didComputerWin $n`
+	if [[ $cwa -eq 1 ]]
        then
+	$gameover=1
           break
        fi
 fi
