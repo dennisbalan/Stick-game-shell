@@ -35,23 +35,25 @@ function whoGoesFirst {
          done 
          echo $turnFirst "goes first"  
  }
+#This is the computer Turn function. If the number of sticks is divisble by 5 it takes 1 stick
+#Else it takes modulo 5 amount of sticks
 funtion computerTurn(){
         
-        if [[  "$n%5" -eq 0 ]]
+        if [[  "$1%5" -eq 0 ]]
         then
              n=$( (n-1) )
         else
-             f="$n%5"
+             f="$1%5"
              n=$( (n-f) )
         fi
         i=1
-        while [[ $i -le $n ]]
+        while [[ $i -le $1 ]]
         do
         	echo -n "|"
         	i=$((i+1))
 
 	done
-	echo -e -n "($n)\n"
+	echo -e -n "($1)\$1"
 
 }
 #user turn 
@@ -61,6 +63,25 @@ if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
 then
     n=$( (n-userSticks) )
 else
+  echo  "You should type an amount between 1 and 4."
+  if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
+  then 
+    n=$( (n-userSticks) )
+  else
+   echo "You have forfeited the game"
+   $gameOver=1
+   fi
+fi
+}
+
+function didComputerWin {
+if [[ $n -eq 0 ]]
+then
+
+fi
+}
+
+
 #main
 #welcome
 echo Welcome to the great game of sticks
@@ -89,5 +110,6 @@ elif [["t" == "u" ]]
       userTurn $n
       computerTurn$n
 fi
+
 done
 
