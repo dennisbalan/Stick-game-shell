@@ -45,10 +45,12 @@ function computerTurn(){
         b=$( ($1%5) )
         if [[ $b -eq 0 ]]
         then
-             $1=$( ($1-1) )
+             d=$( ($1-1) )
+             $1=$d
         else
              f=$( ($1%5) )
-             $1=$( ($1-f) )
+             e=$( ($1-f) )
+             $1=$e
         fi
 #prints out the number of sticks
         i=1
@@ -67,14 +69,16 @@ function userTurn {
 read -p "Please type in the number of sticks you need. Do not take more than 4 sticks" userSticks
 if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
 then
-    $1=$( ($1-userSticks) )
+    c=$( ($1-userSticks) )
+    $1=$c
 else
 #Checks the number of sticks again. If fail, forfeit
   echo  "You should type an amount between 1 and 4."
   read -p "please type in u if you want to go first, c for computer if you want to go later" userSticks
   if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
   then 
-    $1=$( ($1-userSticks) )
+    f=$( ($1-userSticks) )
+    $1=$f
   else
    #forfeit
    echo "You have forfeited the game"
@@ -124,49 +128,22 @@ n=`getNumSticks`
 #choose who goes first
 t=`whoGoesFirst`
 #game loops util gameover is 0. gameover is 0 when someone wins
+if [[ "$t" == "c" ]]
+then 
+ct=`computerTurn $n`
+$n=$ct
+fi
 while [[ gameover -eq 0 ]]
-	do
+    do
 	echo "n = $n"
-        #if computer goes first
-	if [[ "$t" == "c" ]]
-		then 
-                #computer turn
-       		ct=`computerTurn $n`
-       		cw=`didComputerWin $ct`
        
-	#checks to see if game is over
-       if [[ $cw -eq -1 ]]
-       then 
- 	  $gameover=1
-          break
-       fi
-
-       #user Turn
-      ut=`userTurn $ct`
-       #gameover check for forfeit
-       if [[ $ut -eq 0 ]]
-       then
-	  $gameover=1
-          break
-       fi
-
-       #checks to see if the user won
-       uw=`didUserWin $ut`
-       #gameover check
-	if [[ $uw -eq -1 ]]
-       then
-	$gameover=1
-          break
-       fi
-       #n is reinitialized with the latest number of sticks
-       $n=$ut
-  fi
-       #if user goes first
-       if [[ "$t" == "u" ]]
+	
+      
+       #if user goes
          #user turn
     	 uta=`userTurn $n`
 	#forfeit/gameover check
-     		 if [[ $uta -eq 0 ]]
+     		 if [[ $ut -eq 0 ]]
        then
 
 	$gameover=1
@@ -174,24 +151,24 @@ while [[ gameover -eq 0 ]]
        		fi
 
       #gameover check
-     $uwa=`didUserWin $uta`
-	if [[ $uwa -eq -1 ]]
+     $uw=`didUserWin $ut`
+	if [[ $uw -eq -1 ]]
        then
 	  $gameover=1
           break
        fi
 	#computer turn
-      cta=`computerTurn $uta` 
-      cwa=`didComputerWin $cta`
+      cta=`computerTurn $ut` 
+      cw=`didComputerWin $cta`
 	#gameover check
-	if [[ $cwa -eq -1 ]]
+	if [[ $cw -eq -1 ]]
        then
 	$gameover=1
           break
        fi
       #reinitialize n
       $n=$cta
-fi
+
 #there is an error here
 done
 
