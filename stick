@@ -1,0 +1,214 @@
+#!/bin/bash
+
+#Dennis Balan
+#CSE 224
+#10-8-2020
+#HW-003
+#This program is a stick game. It lets the player input the number of sticks to play with, and
+#then competes with the computer to be the first to remove all the sticks. 
+
+
+
+#choose number of sticks
+
+function getNumSticks {
+      read -p "How many stick do you want?" numSticks
+      while [[ $numSticks -lt 10 ]]
+      do
+	 #while numSticks is less than 10, tells user to pick 10 or more sticks
+          echo "Sorry. You need 10 sticks or more"
+          read -p "How many sticks you want man? " numSticks
+      done
+      echo $numSticks
+      exit $numSticks
+}
+#decides who goes first
+
+function whoGoesFirst {
+   #read -p turnFirst
+
+   
+   while [[ 1 == 1 ]] #forever loop
+  do 
+ #variable turnFirst is typed in. 
+  read -p "Type in u for user if you want to go first, or c for computer if you want to go second after me: "  turnFirst
+
+      
+	
+	#computer turn. Is chosen if turnFirst is c
+        if [[ "$turnFirst" == "c" ]]
+           then
+             break
+        
+        #user turn. Is chosen after turnFirst is u
+      elif [[ "$turnFirst" == "u" ]]
+	  then 
+		break
+      
+         fi
+         done 
+        echo $turnFirst 
+ }
+#This isthe computer Turn function. If the number of sticks is divisble by 5 it takes 1 stick
+#Else it takes modulo 5 amount of sticks
+function computerTurn(){
+        b=$(($1%5))
+        if [[ $b -eq 0 ]]
+        then
+             s=$(($1-1))
+             
+             
+        else
+             f=$(($1%5))
+             s=$(($1-f))
+            
+        fi
+#prints out the number of sticks
+        echo computer 
+        
+        
+
+i=1
+while [[ $i -le $s ]]
+do
+   echo -n "|"
+   i=$((i+1))
+
+done
+echo -e -n "($s)\n"
+
+}
+#user turn 
+function userTurn {
+#Checks the number of sticks the user inputs the first time. There must be between 1 and 4 sticks
+read -p "Please type in the number of sticks you need. Do not take more than 4 sticks:" userSticks
+if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
+then
+    y=$(($1 - userSticks))
+    
+else
+#Checks the number of sticks again. If fail, forfeit
+  echo  "You should type an amount between 1 and 4."
+  read -p "Type in the amount of sticks you need: " userSticks
+  if [[ $userSticks -ge 1 ]] && [[ $userSticks -le 4 ]]
+  then 
+    #I think that this is the wrong format
+    y=$(($1 - userSticks))
+    
+   #forfeit returns special code -2 for forfeit
+   else
+   echo "You have forfeited the game"
+  y=-2
+   
+   fi
+fi
+#prints the number of sticks
+ echo you
+ 
+
+userNumber=1
+while [[ $userNumber -le $y ]]
+do
+   echo -n "|"
+   userNumber=$((userNumber+1))
+
+done
+echo -e -n "($y)\n"
+
+}
+#checks to see if computer has 0 sticks. 0 sticks means it wins
+function didComputerWin {
+if [[ $1 -eq 0 ]]
+then
+  echo I won
+  #adds special victory code -1
+  k=-1
+  
+fi
+}
+#checks to see if user has 0 sticks. 0 sticks means user wins
+#exception is when you forfeit. special code for forfeit is -2
+#forfeit is in the userTurn function
+function didUserWin {
+if [[ $1 -eq 0 ]]
+then
+  echo you won
+ #special victory code -1
+  a=-1
+
+fi
+}
+
+
+
+
+
+#main
+#welcome
+echo Welcome to the great game of sticks
+#do intro
+#choose number of sticks
+n=`getNumSticks`
+#choose who goes first
+t=`whoGoesFirst`
+#print the number of sticks
+	i=1
+while [[ $i -le $n ]]
+do
+   echo -n "|"
+   i=$((i+1))
+
+done
+echo -e -n "($n)\n"
+
+#checks if computer goes first
+#if not continues to the main loop
+
+if [[ "$t" == "c" ]]
+then 
+computerTurn $n
+n=$s
+fi
+#gameover is set to 0, x is set to $n
+gameover=0
+x=$n
+#loop ends when gameover is 0 or it reaches break
+while [[ $gameover -eq 0 ]]
+    do
+	
+       
+	
+     
+       #if user goes first, this will be the first function. Otherwise it is computerTurn ahead of the main loop
+         #user turn
+ userTurn $x
+	#forfeit/gameover check
+     		 if [[ $y -eq -2 ]]
+       then
+
+	gameover=1
+          break
+       		fi
+        x=$y
+      #gameover check
+    didUserWin $y 
+	if [[ $a -eq -1 ]]
+       then
+	  gameover=1
+          break
+       fi
+	#computer turn
+      computerTurn $x
+      didComputerWin $s
+	#gameover check
+	if [[ $k -eq -1 ]]
+       then
+	gameover=1
+          break
+       fi
+      #reinitialize x
+      x=$s
+
+done
+#game is over when x is 0
+
